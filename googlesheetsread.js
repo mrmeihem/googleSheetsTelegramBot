@@ -137,4 +137,4 @@ async function main() {
     }
 }
 
-cron.schedule('* * 8-22 * * *', main);
+cron.schedule('0 8-21 * * *', main);
