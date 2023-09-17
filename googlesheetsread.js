@@ -29,7 +29,7 @@ const columnByHour = {
     11: 'D',
     12: 'E',
     13: 'F',
-    14: 'J',
+    14: 'G',
     15: 'H',
     16: 'I',
     17: 'J',
@@ -107,6 +107,19 @@ async function sendMessage(channelID, messageHTML) {
         });
 }
 
+// Функция отправить сообщение с изображением в канал
+async function sendMessageWithPic(channelID, messageHTML, imageUrl) {
+
+    await bot.sendPhoto(CHANNEL_ID, imageUrl, { caption: messageHTML, parse_mode: 'HTML' })
+        .then(() => {
+            console.log('Текст отправлен в канал.');
+        })
+        .catch((error) => {
+            console.error('Ошибка при отправке текста:', error);
+            sendMessage(ADMIN_CHANNEL_ID, 'Произошла ошибка чтения из Google Sheet. Пост не выставлен!')
+        });
+}
+
 async function main() {
     const now = new Date();
     const weekNumber = getWeekNumber();
@@ -130,8 +143,10 @@ async function main() {
             }
         });
         // const media = data.splice(2);
-        await sendPics(CHANNEL_ID, media.flat());
-        await sendMessage(CHANNEL_ID, caption);
+        // await sendPics(CHANNEL_ID, media.flat());
+        // await sendMessage(CHANNEL_ID, caption);
+        await sendMessageWithPic(CHANNEL_ID, caption, media.flat()[0]);
+
         console.log('Пост выставлен');
         console.log('********************************************************************');
     }
